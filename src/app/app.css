@@ -1,0 +1,50 @@
+:host{
+  --navy-50:  #f4f6fb;
+  --navy-100: #e6ebf5;
+  --navy-200: #c9d3e8;
+  --navy-300: #8fa3c9;
+  --navy-500: #2f4a85;
+  --navy-700: #1b2f5e;
+  --navy-900: #0f1c3f;   /* cor base */
+
+  --accent:      #3b82f6;   /* destaque (foco, linha do cabeçalho) */
+
+  --text:        #1a2238;
+  --text-muted:  #6b7690;
+  --surface:     #ffffff;
+  --border:      #e4e9f3;
+  --radius:      14px;
+}
+
+#menuContainer{
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+#navConteiner{
+    height: 100dvh;
+    background-color: #f4f6fb;
+    display: flex;
+    flex-direction: column;
+}
+
+#appsContainer{
+    background-color: #c9d3e8;
+}
+
+.menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #222;
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background: #eee;
+}
