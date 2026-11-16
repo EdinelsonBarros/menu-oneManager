@@ -10,47 +10,122 @@
 
 <body>
   <div id="menuContainer">
-    <nav id="navConteiner">
+  <nav id="navConteiner" [class.expandido]="expandido()">
 
-      <button class="menu-button" type="button" aria-label="Abrir menu">
+    <!-- Topo: logo + sanduíche/seta -->
+    <div class="headerNav">
+      <div class="logoContainer">
+        <img class="logo-full" src="/images/1logo_oneManager.png" alt="Logo OneManager">
+        <img class="logo-icon" src="/images/icone.png" alt="Logo OneManager">
+      </div>
+
+      <div class="toggleContainer">
+        @if (expandido()) {
+          <button class="menu-button" type="button" aria-label="Encolher menu"
+                  [attr.aria-expanded]="true" (click)="recolher()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 aria-hidden="true">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+        } @else {
+          <button class="menu-button" type="button" aria-label="Abrir menu"
+                  [attr.aria-expanded]="false" (click)="expandir()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Aplicativos -->
+    <div class="buttons-apps">
+      <p>Aplicativos</p>
+
+      <button class="menu-button" type="button" aria-label="Financeiro" title="Financeiro">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-chevron-right preview-icon">
-          <path d="m9 18 6-6-6-6" />
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+          <path d="M12 18V6" />
         </svg>
+        <span class="label">Financeiro</span>
       </button>
-      <button class="menu-button" type="button" aria-label="Abrir menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left preview-icon"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <button class="menu-button" type="button" aria-label="Abrir menu">
-        <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round">
-          <path d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      <button class="menu-button" type="button" aria-label="Sair">
+
+      <button class="menu-button" type="button" aria-label="Produtos" title="Produtos">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-log-out preview-icon">
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+          <path d="M12 22V12" />
+          <polyline points="3.29 7 12 12 20.71 7" />
+          <path d="m7.5 4.27 9 5.15" />
+        </svg>
+        <span class="label">Produtos</span>
+      </button>
+
+      <button class="menu-button" type="button" aria-label="Gestão de usuários" title="Gestão de usuários">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M17 21a5 5 0 00-10 0" />
+          <path d="M22 10.5a3.5 3.5 0 00-5.507-2.868" />
+          <path d="M7.507 7.632A3.5 3.5 0 002 10.5" />
+          <circle cx="12" cy="13" r="3" />
+          <circle cx="18.5" cy="4.5" r="2.5" />
+          <circle cx="5.5" cy="4.5" r="2.5" />
+        </svg>
+        <span class="label">Gestão de usuários</span>
+      </button>
+    </div>
+
+    <!-- Outros -->
+    <div class="utilsContainer">
+      <p>Outros</p>
+
+      <button class="menu-button" type="button" aria-label="Configurações" title="Configurações">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+        <span class="label">Configurações</span>
+      </button>
+
+      <button class="menu-button" type="button" aria-label="Sair" title="Sair">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
           <path d="m16 17 5-5-5-5" />
           <path d="M21 12H9" />
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
         </svg>
+        <span class="label">Sair</span>
       </button>
-      <button class="menu-button" type="button" aria-label="Gestão de usuarios">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="lucide lucide-users preview-icon">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-          <path d="M16 3.128a4 4 0 0 1 0 7.744" />
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-          <circle cx="9" cy="7" r="4" />
-        </svg>
-      </button>
+    </div>
 
-    </nav>
-    <div id="appsContainer"></div>
+  </nav>
+
+  <!-- Área principal -->
+  <div id="mainContainer">
+    <div class="detailsContainer">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <p>edinelson.barros</p>
+    </div>
+
+    <div class="systemContainer"></div>
   </div>
+</div>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
-:host{
-  --navy-50:  #f4f6fb;
+:host {
+  --navy-50: #f4f6fb;
   --navy-100: #e6ebf5;
   --navy-200: #c9d3e8;
   --navy-300: #8fa3c9;
@@ -7,44 +7,178 @@
   --navy-700: #1b2f5e;
   --navy-900: #0f1c3f;   /* cor base */
 
-  --accent:      #3b82f6;   /* destaque (foco, linha do cabeçalho) */
+  --accent: #3b82f6;     /* destaque (foco, linha do cabeçalho) */
 
-  --text:        #1a2238;
-  --text-muted:  #6b7690;
-  --surface:     #ffffff;
-  --border:      #e4e9f3;
-  --radius:      14px;
+  --text: #1a2238;
+  --text-muted: #6b7690;
+  --surface: #ffffff;
+  --border: #bbbcbd;
+  --radius: 14px;
 }
 
-#menuContainer{
-    min-height: 100dvh;
-    display: grid;
-    grid-template-columns: 1fr 4fr;
+/* ===== Layout geral ===== */
+#menuContainer {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: auto 1fr;   /* nav com largura própria, conteúdo ocupa o resto */
 }
 
-#navConteiner{
-    height: 100dvh;
-    background-color: #f4f6fb;
-    display: flex;
-    flex-direction: column;
-}
-
-#appsContainer{
-    background-color: #c9d3e8;
-}
-
-.menu-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* ===== Barra lateral ===== */
+#navConteiner {
+  width: 64px;                       /* recolhido: só ícones */
+  height: 100dvh;
   padding: 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  background-color: var(--navy-50);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+  transition: width 0.2s ease;
+  box-shadow: 0 1px 3px #0000001a, 0 1px 2px #00000008;
+}
+
+#navConteiner.expandido {
+  width: 240px;                      /* expandido: ícones + texto */
+}
+
+/* ===== Cabeçalho: logo + seta/sanduíche ===== */
+.headerNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;    /* logo à esquerda, seta à direita */
+  gap: 8px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer > img {
+  height: 40px;
+  width: auto;
+}
+
+.toggleContainer {
+  display: flex;
+}
+
+.logo-icon {
+  display: none;
+}
+
+#navConteiner:not(.expandido) .logo-full {
+  display: none;
+}
+
+#navConteiner:not(.expandido) .logo-icon {
+  display: block;
+}
+
+
+#navConteiner:not(.expandido) .headerNav {
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ===== Grupos de botões ===== */
+.buttons-apps,
+.utilsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+
+.utilsContainer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons-apps {
+  margin-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* títulos de seção */
+.buttons-apps > p,
+.utilsContainer > p {
+  margin: 8px 8px 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* recolhido: esconde títulos e textos */
+#navConteiner:not(.expandido) p,
+#navConteiner:not(.expandido) .label {
+  display: none;
+}
+
+/* ===== Botões ===== */
+.menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;           /* recolhido: ícone centralizado */
+  gap: 12px;
+  padding: 10px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   background: transparent;
-  color: #222;
+  color: var(--text);
+  font: inherit;
+  white-space: nowrap;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .menu-button:hover {
-  background: #eee;
+  background: var(--navy-100);
+}
+
+.menu-button:focus-visible {
+  outline: none;
+  
+}
+
+.menu-button svg {
+  flex-shrink: 0;                    /* ícone nunca encolhe */
+}
+
+/* expandido: botões alinhados à esquerda */
+#navConteiner.expandido .buttons-apps .menu-button,
+#navConteiner.expandido .utilsContainer .menu-button {
+  justify-content: flex-start;
+}
+
+/* ===== Área principal ===== */
+#mainContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;                      /* evita estourar a largura do grid */
+}
+
+.detailsContainer {
+  background-color: var(--navy-50);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+
+.detailsContainer > * {
+  margin-right: 15px;
+}
+
+.systemContainer {
+  flex: 1;
+  height: 100%;
 }

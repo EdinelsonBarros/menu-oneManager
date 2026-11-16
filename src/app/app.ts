@@ -8,5 +8,8 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('menu-oneManager');
+  protected expandido = signal(false);
+
+  expandir() { this.expandido.set(true); }
+  recolher() { this.expandido.set(false); }
 }
