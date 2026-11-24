@@ -47,6 +47,25 @@
       <div class="buttons-apps">
         <p>Aplicativos</p>
 
+        @if (loading) {
+        <span class="label">Carregando...</span>
+        } @else if (error) {
+        <span class="label">{{ error }}</span>
+        } @else if (systems.length === 0) {
+        <span class="label">Nenhuma aplicação disponível</span>
+        } @else {
+        @for (system of systems; track system.systemCode) {
+        <a class="menu-button" [href]="system.url" [attr.aria-label]="system.systemName" [title]="system.systemName">
+          <img [src]="system.iconPath" alt="" />
+          <span class="label">{{ system.systemName }}</span>
+        </a>
+        }
+        }
+      </div>
+
+      <div class="buttons-apps">
+        <p>Aplicativos</p>
+
         <button class="menu-button" type="button" aria-label="Financeiro" title="Financeiro">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -117,7 +136,7 @@
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
           <circle cx="12" cy="7" r="4" />
-        </svg> 
+        </svg>
         <p>{{ usuario()?.username }}</p>
       </div>
 

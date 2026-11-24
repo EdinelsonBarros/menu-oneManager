@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { switchMap } from 'rxjs';
+import { switchMap, catchError, Observable, of, tap } from 'rxjs';
 import type { User } from './User';
 
 interface CsrfToken {
@@ -25,26 +25,28 @@ export class Auth {
   readonly autenticado = computed(() => this._usuario() !== null);
 
   /** Consulta o backend para saber se há sessão válida. */
-  verificarSessao(): void {
-    if (!this.isBrowser) return;   // no servidor (SSR) não há cookie do usuário
+  verificarSessao(): Observable<User | null> {
+  if (!this.isBrowser) return of(null);
 
-    this._carregando.set(true);
+  this._carregando.set(true);
 
-    this.http.get<User>(`${this.api}/bff/me`, { withCredentials: true }).subscribe({
-      next: (dados) => {
-        this._usuario.set(dados.authenticated ? dados : null);
-        this._carregando.set(false);
-      },
-      error: (erro: HttpErrorResponse) => {
-        this._usuario.set(null);
-        this._carregando.set(false);
+  return this.http.get<User>(`${this.api}/bff/me`, {
+    withCredentials: true
+  }).pipe(
+    tap(dados => {
+      this._usuario.set(dados.authenticated ? dados : null);
+      this._carregando.set(false);
+    }),
+    catchError((erro: HttpErrorResponse) => {
+      this._usuario.set(null);
+      this._carregando.set(false);
 
-        //Reative quando o fluxo estiver estável, para não entrar em loop:
-        if (erro.status === 401) this.login();
-      }
-    });
-  }
+      if (erro.status === 401) this.login();
 
+      return of(null);
+    })
+  );
+}
   /** Inicia o fluxo OAuth no backend (BFF). */
   login(): void {
     window.location.href = `${this.api}/bff/login`;

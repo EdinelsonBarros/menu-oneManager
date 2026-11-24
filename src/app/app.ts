@@ -1,5 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Auth } from './auth';
+import { MenuService, MenuSystem } from './core/menu'
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'menu-root',
@@ -14,10 +16,31 @@ export class App implements OnInit {
 
   protected readonly expandido = signal(false);
 
-  ngOnInit(): void {
-    this.auth.verificarSessao();
-  }
+  systems: MenuSystem[] = [];
+  loading = true;
+  error = '';
 
+  private readonly menuService = inject(MenuService);
+
+ngOnInit(): void {
+  this.auth.verificarSessao().pipe(
+    switchMap(usuario =>
+      usuario?.authenticated
+        ? this.menuService.getSystems()
+        : of([])
+    )
+  ).subscribe({
+    next: systems => {
+      this.systems = systems;
+      this.loading = false;
+    },
+    error: err => {
+      console.error('Erro ao carregar os sistemas do menu', err);
+      this.error = 'Não foi possível carregar os sistemas.';
+      this.loading = false;
+    }
+  });
+}
   expandir() { this.expandido.set(true); }
   recolher() { this.expandido.set(false); }
   sair()     { this.auth.logout(); }
